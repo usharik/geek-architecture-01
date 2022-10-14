@@ -1,19 +1,18 @@
 package ru.geekbrains.system_patterns.orm;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UnitOfWork {
 
-    private final Connection conn;
+    private final UserMapper userMapper;
 
     private final List<User> newUsers = new ArrayList<>();
     private final List<User> updateUsers = new ArrayList<>();
     private final List<User> deleteUsers = new ArrayList<>();
 
-    public UnitOfWork(Connection conn) {
-        this.conn = conn;
+    public UnitOfWork(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
     public void registerNew(User user) {
@@ -32,17 +31,24 @@ public class UnitOfWork {
         insert();
         update();
         delete();
+        clear();
     }
 
     private void update() {
-        // TODO
+        this.updateUsers.forEach(userMapper::update);
     }
 
     private void insert() {
-        // TODO
+        this.newUsers.forEach(userMapper::insert);
     }
 
     private void delete() {
-        // TODO
+        this.deleteUsers.forEach(userMapper::delete);
+    }
+
+    private void clear() {
+        this.newUsers.clear();
+        this.updateUsers.clear();
+        this.deleteUsers.clear();
     }
 }

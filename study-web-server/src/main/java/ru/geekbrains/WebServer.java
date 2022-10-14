@@ -2,6 +2,7 @@ package ru.geekbrains;
 
 import ru.geekbrains.config.Config;
 import ru.geekbrains.config.ConfigFactory;
+import ru.geekbrains.handler.AnnotatedHandlerFactory;
 import ru.geekbrains.handler.MethodHandlerFactory;
 import ru.geekbrains.handler.RequestHandler;
 import ru.geekbrains.service.*;
@@ -27,7 +28,7 @@ public class WebServer {
                 new Thread(new RequestHandler(
                         socketService,
                         RequestParserFactory.createRequestParser(),
-                        MethodHandlerFactory.create(socketService, responseSerializer, config))
+                        AnnotatedHandlerFactory.create(socketService, responseSerializer, config))
                 ).start();
             }
         } catch (IOException e) {

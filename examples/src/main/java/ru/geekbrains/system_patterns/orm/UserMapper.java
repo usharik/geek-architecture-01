@@ -16,7 +16,7 @@ public class UserMapper {
     public UserMapper(Connection conn) {
         this.conn = conn;
         try {
-            this.selectUser = conn.prepareStatement("select id, username, password from users where id = ?;");
+            this.selectUser = conn.prepareStatement("select id, username, password from users where id = ?");
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
@@ -39,5 +39,17 @@ public class UserMapper {
             throw new IllegalStateException(e);
         }
         return Optional.empty();
+    }
+
+    public void update(User user) {
+
+    }
+
+    public void insert(User user) {
+
+    }
+
+    public void delete(User user) {
+
     }
 }

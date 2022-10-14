@@ -3,6 +3,7 @@ package ru.geekbrains.system_patterns.orm;
 import java.sql.Connection;
 import java.util.Optional;
 
+// UserTableModule
 public class UserRepository {
 
     private final Connection conn;
@@ -14,7 +15,7 @@ public class UserRepository {
     public UserRepository(Connection conn) {
         this.conn = conn;
         this.mapper = new UserMapper(conn);
-        this.unitOfWork = new UnitOfWork(conn);
+        this.unitOfWork = new UnitOfWork(mapper);
     }
 
     public Optional<User> findById(long id) {
@@ -22,7 +23,7 @@ public class UserRepository {
     }
 
     public void beginTransaction() {
-        this.unitOfWork = new UnitOfWork(conn);
+        this.unitOfWork = new UnitOfWork(mapper);
     }
 
     public void insert(User user) {
@@ -34,7 +35,7 @@ public class UserRepository {
     }
 
     public void delete(User user) {
-        unitOfWork.registerUpdate(user);
+        unitOfWork.registerDelete(user);
     }
 
     public void commitTransaction() {
